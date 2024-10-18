@@ -5,7 +5,8 @@ Healthlens is a food recommendation platform designed to help elderly individual
 ### How to Use
 Login: After logging in to the website, users can upload images or details of their meals.  
 
-Meal Upload: Once the meal is uploaded, the system analyzes the nutritional content.
+Meal Upload: Once the meal is uploaded, the system analyzes the nutritional content.  
+
 Health Suggestions: Based on the analysis, Healthlens recommends healthier alternatives or adjustments to ensure better nutrition.
 
 Project Execution
