@@ -9,7 +9,6 @@ Meal Upload: Once the meal is uploaded, the system analyzes the nutritional cont
 
 Health Suggestions: Based on the analysis, Healthlens recommends healthier alternatives or adjustments to ensure better nutrition.
 
-Project Execution
 
 Currently, the project is divided into three separate components:
 
