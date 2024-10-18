@@ -1,4 +1,5 @@
 ## Healthlens
+
 ### Overview
 Healthlens is a food recommendation platform designed to help elderly individuals make healthier food choices. The platform provides meal suggestions based on the meals they upload, offering advice tailored to their nutritional needs.
 
