@@ -7,16 +7,16 @@ Healthlens is a food recommendation platform designed to help elderly individual
 1. Clone demo project to your local machine.
 2. Replace tokens from application.yml and application.properties with yours.
 
-#### Use IDEA
-Open "web" project using IDEA.
-Click load maven button to load all the dependencies for the project.
-Run the application and use your browser to access localhost:8080.
-
-#### Use Docker
-Open terminal under /web and open Docker Desktop.
-Execute "docker compose up --build -d."
-Use your browser to access localhost:8080.
-Execute "docker compose down" to shut down the application.
+  #### Use IDEA
+  Open "web" project using IDEA.
+  Click load maven button to load all the dependencies for the project.
+  Run the application and use your browser to access localhost:8080.
+  
+  #### Use Docker
+  Open terminal under /web and open Docker Desktop.
+  Execute "docker compose up --build -d."
+  Use your browser to access localhost:8080.
+  Execute "docker compose down" to shut down the application.
 
 ### How to Use
 Login: After logging in to the website, users can upload images or details of their meals.  
