@@ -5,7 +5,7 @@ Healthlens is a food recommendation platform designed to help elderly individual
 
 ### How to Configure and Run this application.
 1. Clone demo project to your local machine.
-2. Replace tokens from application.yml and application.properties with yours.
+2. Replace tokens from application.yml with yours. (Important)
 
   #### Use IDEA
   Open "web" project using IDEA.
