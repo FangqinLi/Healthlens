@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>feature</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #a8e6cf, #dcedc1, #ffd3b6, #ffaaa5, #ff8b94);
+            background-size: 400% 400%;
+            animation: gradientBG 10s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .upload-container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            backdrop-filter: blur(5px);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #388e3c;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .file-input {
+            margin: 20px 0;
+            padding: 10px 20px;
+            font-size: 1rem;
+            color: #555;
+            background-color: rgba(255, 255, 255, 0.9);
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .file-input:hover {
+            background-color: rgba(255, 255, 255, 1);
+            border-color: #999;
+        }
+
+        button {
+            background: linear-gradient(135deg, #81c784, #aed581, #ffb74d, #ff8a65);
+            color: white;
+            padding: 12px 24px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #66bb6a, #9ccc65, #ffb74d, #ff7043);
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Style for result display */
+        #result {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            color: #555;
+            text-align: center;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: #4caf50;
+            color: white;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .back-button:hover {
+            background: #388e3c;
+        }
+    </style>
+
+</head>
+<body>
+
+<button class="back-button" onclick="window.location.href='/index.html'">Back to Home</button> <!-- Button to go to index.html -->
+
+<div class="upload-container">
+
+    <h1>Upload your meal</h1>
+    
+    <input type="file" class="file-input" id="fileInput" accept="image/*" onchange="previewImage(event)">
+    <br><br>
+    <img id="imagePreview" width="300" style="display: none;">
+    <br><br>
+    <button id="uploadButton" style="display: none;" onclick="uploadImage()">recognize-food</button>
+    <!-- Result display area -->
+    <div id="result"></div> <!-- Added for showing the result -->
+</div>
+
+
+    <script type="text/javascript"
+            src="/webjars/js-cookie/2.1.0/js.cookie.js"></script>
+    <script>
+        let selectedFile;
+
+        function previewImage(event) {
+            const input = event.target;
+            const imagePreview = document.getElementById('imagePreview');
+            const uploadButton = document.getElementById('uploadButton');
+
+            if (input.files && input.files[0]) {
+                selectedFile = input.files[0];
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                }
+
+                reader.readAsDataURL(selectedFile);
+                uploadButton.style.display = 'inline';
+            }
+        }
+
+        function uploadImage() {
+            const formData = new FormData();
+            formData.append('image', selectedFile);
+
+
+            fetch('/detect', {
+                method: 'POST',
+                headers: {
+                    'X-XSRF-Token': Cookies.get('XSRF-TOKEN')
+                },
+                body: formData
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+                throw new Error('Network Error');
+            })
+            .then(data => {
+                console.log('Response data:', data); // Log the entire response to check structure
+
+                // Check if data.result exists and is not undefined
+                const descriptions = data.responses[0].labelAnnotations.map(item => item.description); // Extract descriptions
+
+                // Display the result or entire response if 'result' field is missing
+                document.getElementById('result').innerText = `Result: ${descriptions.join(', ')}`; // Updated to handle different formats
+            })
+            .catch((error) => {
+                document.getElementById('result').innerText = `Error: ${error.message}`; // Show error on page
+            });
+        }
+    </script>
+
+</body>
+</html>
