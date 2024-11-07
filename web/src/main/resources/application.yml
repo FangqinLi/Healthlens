@@ -12,7 +12,7 @@ spring:
       client:
         registration:
           google:
-            client-id: your_id
-            client-secret: your_secret
+            client-id: <CLIENT_ID>
+            client-secret: <CLIENT_SECRET>
 
-apiKey: your_key
+apiKey: <API_KEY>
