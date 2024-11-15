@@ -225,7 +225,7 @@
         //checkLoginStatus();
       }
 
-      function checkLoginStatus() {
+      function checkLoginStatus(callback) {
         $.ajax({
           url: "/user",
           type: "GET",
@@ -234,34 +234,49 @@
           },
           success: function (data) {
             isLoggedIn = true;
+            if (callback) {
+              callback(); // Call a function to update the UI or take additional actions
+            }
           },
           error: function (error) {
             isLoggedIn = false;
-            console.error("Error:", error);
+            if (callback) {
+              callback(); // Handle UI update in case of failure as well
+            }
           },
         });
       }
+
+
+      function logIn() {
+        if (!isLoggedIn) {
+          window.location.href = "/oauth2/authorization/google";
+        }
+      }
+
+
 
       function toggleDropdown() {
         const dropdownMenu = document.getElementById("dropdownMenu");
         dropdownMenu.innerHTML = "";
 
-        checkLoginStatus();
-        if (isLoggedIn) {
-          dropdownMenu.innerHTML = `
-                    <li><a class="dropdown-item" href="profile.html">Profile</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="logOut()">Log Out</a></li>
-                `;
-        } else {
-          dropdownMenu.innerHTML = `
-                    <li><a class="dropdown-item" href="#" onclick="logIn()">Sign In</a></li>
-                `;
-        }
-        const dropdown = new bootstrap.Dropdown(
-          document.getElementById("accountDropdown")
-        );
-        dropdown.show();
+        // Call checkLoginStatus with a callback to update the dropdown
+        checkLoginStatus(function () {
+          if (isLoggedIn) {
+            dropdownMenu.innerHTML = `
+              <li><a class="dropdown-item" href="profile.html">Profile</a></li>
+              <li><a class="dropdown-item" href="#" onclick="logOut()">Log Out</a></li>
+            `;
+          } else {
+            dropdownMenu.innerHTML = `
+              <li><a class="dropdown-item" href="#" onclick="logIn()">Sign In</a></li>
+            `;
+          }
+          const dropdown = new bootstrap.Dropdown(document.getElementById("accountDropdown"));
+          dropdown.show();
+        });
       }
+
 
       function handleFeatureClick() {
         const featuresLink = document.getElementById("featuresLink");

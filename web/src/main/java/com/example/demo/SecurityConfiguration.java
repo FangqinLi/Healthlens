@@ -50,7 +50,8 @@ public class SecurityConfiguration {
                         .logoutSuccessUrl("/")
                         .permitAll()
                 )
-                .oauth2Login(Customizer.withDefaults());
+                .oauth2Login(login -> login
+                        .loginPage("/"));
 
         return http.build();
     }
