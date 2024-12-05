@@ -1,7 +1,7 @@
 spring:
 
   application:
-    name: LogMeal
+    name: Healthlens
 
   datasource:
     url: <>
