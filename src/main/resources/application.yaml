@@ -1,0 +1,20 @@
+spring:
+
+  application:
+    name: Healthlens
+
+  datasource:
+    url: <>
+    username: <>
+    password: <>
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: <>
+            client-secret: <>
+
+
+my-api-key: <>
